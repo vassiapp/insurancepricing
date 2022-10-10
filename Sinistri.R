@@ -23,6 +23,7 @@ index = 1
 numPeopleTotal = 0
 
 fullDataVector=NULL
+fullCostoDataVector=NULL
 
 for(cardinalPoint in 1:4)
 {
@@ -63,9 +64,24 @@ for(cardinalPoint in 1:4)
           #salviamo le realizzazioni della poisson in una variabile
           rpoisData = rpois(numberPeople, ageFactor*cardinalFactor*motorFactor*carAgeFactor*classFactor/10)
           
+          
           #ciclo for per creare un vettore per il dataframe
           for(rData in rpoisData)
           {
+            if(rData != 0)
+            {
+              # put lambda and nu to constant value for test purpose
+              nu = 8
+              lambda = 8
+              costi = rgamma(rData, nu, lambda)
+              for(costo in costi)
+              {
+                tempCostoData = c(rData, cardinalPoint, ageSplit, classes, motorStrength, carAge)
+                fullCostoDataVector = append(fullCostoDataVector, tempCostoData)
+              }
+            }
+            
+            
             tempData = c(rData, cardinalPoint, ageSplit, classes, motorStrength, carAge)
             fullDataVector = append(fullDataVector, tempData)
           }
@@ -79,10 +95,13 @@ for(cardinalPoint in 1:4)
 }
 #converto il vettore in matrice
 fullDataMatrix = matrix(fullDataVector, nrow=6, ncol = 1000)
+fullCostoDataMatrix = matrix(fullCostoDataVector, nrow=6)
 
 #ruoto la matrice di 90° per ottenere i valori della poisson nella prima colonna
 fullDataMatrix = t(fullDataMatrix[nrow(fullDataMatrix):1,])
 fullDataMatrix = fullDataMatrix[,c(ncol(fullDataMatrix):1)]
+fullCostoDataMatrix = t(fullCostoDataMatrix[nrow(fullCostoDataMatrix):1,])
+fullCostoDataMatrix = fullCostoDataMatrix[,c(ncol(fullCostoDataMatrix):1)]
 
 #converto la matrice in dataframe
 fullDataFrame = as.data.frame(fullDataMatrix)
