@@ -65,12 +65,12 @@ for(cardinalPoint in 1:4)
           rpoisData = rpois(numberPeople, ageFactor*cardinalFactor*motorFactor*carAgeFactor*classFactor/10)
           
           
-          #ciclo for per creare un vettore per il dataframe
+          #ciclo for per creare un vettore per il dataframe dei sinistri e del costo del risarcimento
           for(rData in rpoisData)
           {
-            if(rData != 0)
+            if(rData != 0) #quando il valore simulato della poisson é diverso da zero
             {
-              # put lambda and nu to constant value for test purpose
+              # temporaneamente
               nu = 8
               lambda = 8
               costi = rgamma(rData, nu, lambda)
@@ -80,7 +80,6 @@ for(cardinalPoint in 1:4)
                 fullCostoDataVector = append(fullCostoDataVector, tempCostoData)
               }
             }
-            
             
             tempData = c(rData, cardinalPoint, ageSplit, classes, motorStrength, carAge)
             fullDataVector = append(fullDataVector, tempData)
@@ -97,20 +96,31 @@ for(cardinalPoint in 1:4)
 fullDataMatrix = matrix(fullDataVector, nrow=6, ncol = 1000)
 fullCostoDataMatrix = matrix(fullCostoDataVector, nrow=6)
 
-#ruoto la matrice di 90° per ottenere i valori della poisson nella prima colonna
+#ruoto la matrice di 90° per ottenere i valori della poisson e della gamma nella prima colonna
 fullDataMatrix = t(fullDataMatrix[nrow(fullDataMatrix):1,])
 fullDataMatrix = fullDataMatrix[,c(ncol(fullDataMatrix):1)]
+
 fullCostoDataMatrix = t(fullCostoDataMatrix[nrow(fullCostoDataMatrix):1,])
 fullCostoDataMatrix = fullCostoDataMatrix[,c(ncol(fullCostoDataMatrix):1)]
 
 #converto la matrice in dataframe
 fullDataFrame = as.data.frame(fullDataMatrix)
+fullDataFrameCosto = as.data.frame(fullCostoDataMatrix)
+
+#do diverse denominazioni alle colonne del dataframe
 colnames(fullDataFrame)[1] <- "Sinistri"
 colnames(fullDataFrame)[2] <- "Zona geografica"
 colnames(fullDataFrame)[3] <- "Età"
 colnames(fullDataFrame)[4] <- "Classe di merito"
 colnames(fullDataFrame)[5] <- "Cilindrata"
 colnames(fullDataFrame)[6] <- "Anzianità veicolo"
+
+colnames(fullDataFrameCosto)[1] <- "Risarcimenti"
+colnames(fullDataFrameCosto)[2] <- "Zona geografica"
+colnames(fullDataFrameCosto)[3] <- "Età"
+colnames(fullDataFrameCosto)[4] <- "Classe di merito"
+colnames(fullDataFrameCosto)[5] <- "Cilindrata"
+colnames(fullDataFrameCosto)[6] <- "Anzianità veicolo"
 
 #USIAMO BRMS
 require(brms)
@@ -122,6 +132,9 @@ require(cowplot)
 
 #otteniamo numero di core su cui far girare il programma
 options(mc.cores = parallel::detectCores())
-  
-fit.brm <- brm(Sinistri ~ exp(Età), data = fullDataFrame, family = ("poisson"), cores = getOption("mc.cores", 1))
 
+#fitting del modello per la poisson
+fit.sinistri <- brm(Sinistri ~ exp(Età), data = fullDataFrame, family = ("poisson"), cores = getOption("mc.cores", 1))
+
+#fitting del modello per la gamma
+fit.costo <- brm(Risarcimenti ~ exp(Età), data = fullDataFrameCosto, family = ("gamma"), cores = getOption("mc.cores", 1))
