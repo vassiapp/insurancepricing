@@ -70,7 +70,7 @@ for(cardinalPoint in 1:4)
           {
             if(rData != 0) #quando il valore simulato della poisson é diverso da zero
             {
-              # temporaneamente
+              # temporaneamente mettiamo dei valori fissi
               nu = 8
               lambda = 8
               costi = rgamma(rData, nu, lambda)
