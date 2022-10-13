@@ -71,9 +71,22 @@ for(cardinalPoint in 1:4)
             if(rData != 0) #quando il valore simulato della poisson é diverso da zero
             {
               # temporaneamente mettiamo dei valori fissi
-              nu = 8
-              lambda = 8
-              costi = rgamma(rData, nu, lambda)
+              nu = 50
+              if(motorStrength==1 && carAge==2) {
+                mu=500
+                costi = rgamma(rData, nu, nu/mu)
+              } else if(motorStrength==1 && carAge==1) {
+                mu=1500
+                costi = rgamma(rData, nu, nu/mu)
+              } else if(motorStrength==2 && carAge==1) {
+                mu=2000
+                costi = rgamma(rData, nu, nu/mu)
+              } else {
+                mu=1000
+                costi = rgamma(rData, nu, nu/mu)
+              }
+              
+              
               for(costo in costi)
               {
                 tempCostoData = c(rData, cardinalPoint, ageSplit, classes, motorStrength, carAge)
