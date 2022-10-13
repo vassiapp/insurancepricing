@@ -148,4 +148,6 @@ summary(fit.sinistri) #vedo i risultati
 plot(fit.sinistri, ask=FALSE)
 
 #fitting del modello per la gamma
-fit.costo <- brm(Risarcimenti ~ exp(Età), data = fullDataFrameCosto, family = ("gamma"), cores = getOption("mc.cores", 1))
+fit.costo <- brm(Risarcimenti ~ Eta + Zona + Classe + Cilindrata + Veicolo, data = fullDataFrameCosto, family = ("gamma"), cores = getOption("mc.cores", 1))
+summary (fit.costo)
+plot(fit.costo, ask=FALSE)
