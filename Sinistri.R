@@ -109,11 +109,11 @@ fullDataFrameCosto = as.data.frame(fullCostoDataMatrix)
 
 #do diverse denominazioni alle colonne del dataframe
 colnames(fullDataFrame)[1] <- "Sinistri"
-colnames(fullDataFrame)[2] <- "Zona geografica"
-colnames(fullDataFrame)[3] <- "Età"
-colnames(fullDataFrame)[4] <- "Classe di merito"
+colnames(fullDataFrame)[2] <- "Zona"
+colnames(fullDataFrame)[3] <- "Eta"
+colnames(fullDataFrame)[4] <- "Classe"
 colnames(fullDataFrame)[5] <- "Cilindrata"
-colnames(fullDataFrame)[6] <- "Anzianità veicolo"
+colnames(fullDataFrame)[6] <- "Veicolo"
 
 colnames(fullDataFrameCosto)[1] <- "Risarcimenti"
 colnames(fullDataFrameCosto)[2] <- "Zona geografica"
@@ -121,6 +121,15 @@ colnames(fullDataFrameCosto)[3] <- "Età"
 colnames(fullDataFrameCosto)[4] <- "Classe di merito"
 colnames(fullDataFrameCosto)[5] <- "Cilindrata"
 colnames(fullDataFrameCosto)[6] <- "Anzianità veicolo"
+
+head(fullDataFrame)
+fullDataFrame$`Zona geografica`<-as.factor(fullDataFrame$`Zona geografica`)
+fullDataFrame$`Età`<-as.factor(fullDataFrame$`Età`)
+fullDataFrame$`Classe di merito`<-as.factor(fullDataFrame$`Classe di merito`)
+fullDataFrame$`Cilindrata`<-as.factor(fullDataFrame$`Cilindrata`)
+fullDataFrame$`Anzianità veicolo`<-as.factor(fullDataFrame$`Anzianità veicolo`)
+
+str(fullDataFrame)
 
 #USIAMO BRMS
 require(brms)
@@ -134,7 +143,9 @@ require(cowplot)
 options(mc.cores = parallel::detectCores())
 
 #fitting del modello per la poisson
-fit.sinistri <- brm(Sinistri ~ exp(Età), data = fullDataFrame, family = ("poisson"), cores = getOption("mc.cores", 1))
+fit.sinistri <- brm(Sinistri ~ Eta + Zona + Classe + Cilindrata + Veicolo, data = fullDataFrame, family = ("poisson"), cores = getOption("mc.cores", 1))
+summary(fit.sinistri) #vedo i risultati
+plot(fit.sinistri, ask=FALSE)
 
 #fitting del modello per la gamma
 fit.costo <- brm(Risarcimenti ~ exp(Età), data = fullDataFrameCosto, family = ("gamma"), cores = getOption("mc.cores", 1))
