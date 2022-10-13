@@ -116,20 +116,27 @@ colnames(fullDataFrame)[5] <- "Cilindrata"
 colnames(fullDataFrame)[6] <- "Veicolo"
 
 colnames(fullDataFrameCosto)[1] <- "Risarcimenti"
-colnames(fullDataFrameCosto)[2] <- "Zona geografica"
-colnames(fullDataFrameCosto)[3] <- "Età"
-colnames(fullDataFrameCosto)[4] <- "Classe di merito"
+colnames(fullDataFrameCosto)[2] <- "Zona"
+colnames(fullDataFrameCosto)[3] <- "Eta"
+colnames(fullDataFrameCosto)[4] <- "Classe"
 colnames(fullDataFrameCosto)[5] <- "Cilindrata"
-colnames(fullDataFrameCosto)[6] <- "Anzianità veicolo"
+colnames(fullDataFrameCosto)[6] <- "Veicolo"
 
 head(fullDataFrame)
-fullDataFrame$`Zona geografica`<-as.factor(fullDataFrame$`Zona geografica`)
-fullDataFrame$`Età`<-as.factor(fullDataFrame$`Età`)
-fullDataFrame$`Classe di merito`<-as.factor(fullDataFrame$`Classe di merito`)
+fullDataFrame$`Zona`<-as.factor(fullDataFrame$`Zona`)
+fullDataFrame$`Eta`<-as.factor(fullDataFrame$`Eta`)
+fullDataFrame$`Classe`<-as.factor(fullDataFrame$`Classe`)
 fullDataFrame$`Cilindrata`<-as.factor(fullDataFrame$`Cilindrata`)
-fullDataFrame$`Anzianità veicolo`<-as.factor(fullDataFrame$`Anzianità veicolo`)
-
+fullDataFrame$`Veicolo`<-as.factor(fullDataFrame$`Veicolo`)
 str(fullDataFrame)
+
+head(fullDataFrameCosto)
+fullDataFrameCosto$`Zona`<-as.factor(fullDataFrameCosto$`Zona`)
+fullDataFrameCosto$`Eta`<-as.factor(fullDataFrameCosto$`Eta`)
+fullDataFrameCosto$`Classe`<-as.factor(fullDataFrameCosto$`Classe`)
+fullDataFrameCosto$`Cilindrata`<-as.factor(fullDataFrameCosto$`Cilindrata`)
+fullDataFrameCosto$`Veicolo`<-as.factor(fullDataFrameCosto$`Veicolo`)
+str(fullDataFrameCosto)
 
 #USIAMO BRMS
 require(brms)
