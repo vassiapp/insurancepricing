@@ -156,6 +156,38 @@ require(dplyr)
 require(parallel)
 require(cowplot)
 
+#grafici per visualizzare i dati per i sinistri
+sinistrieta <- ggplot(data=fullDataFrame, aes(x=Eta, y=Sinistri))
+sinistrieta + geom_col()
+
+sinistrizona <- ggplot(data=fullDataFrame, aes(x=Zona, y=Sinistri))
+sinistrizona + geom_col()
+
+sinistriclasse <- ggplot(data=fullDataFrame, aes(x=Classe, y=Sinistri))
+sinistriclasse + geom_col()
+
+sinistricilindrata <- ggplot(data=fullDataFrame, aes(x=Cilindrata, y=Sinistri))
+sinistricilindrata + geom_col()
+
+sinistrianz <- ggplot(data=fullDataFrame, aes(x=Veicolo, y=Sinistri))
+sinistrianz + geom_col()
+
+#grafici per visualizzare i dati per i risarcimenti
+claimsceta <- ggplot(data=fullDataFrameCosto, aes(x=Eta, y=Risarcimenti))
+claimsceta + geom_col()
+
+claimszona <- ggplot(data=fullDataFrameCosto, aes(x=Zona, y=Risarcimenti))
+claimszona + geom_col()
+
+claimsclasse <- ggplot(data=fullDataFrameCosto, aes(x=Classe, y=Risarcimenti))
+claimsclasse + geom_col()
+
+claimscilindrata <- ggplot(data=fullDataFrameCosto, aes(x=Cilindrata, y=Risarcimenti))
+claimscilindrata + geom_col()
+
+claimsanz <- ggplot(data=fullDataFrameCosto, aes(x=Veicolo, y=Risarcimenti))
+claimsanz + geom_col()
+
 #otteniamo numero di core su cui far girare il programma
 options(mc.cores = parallel::detectCores())
 
