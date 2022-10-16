@@ -10,7 +10,8 @@ To understand the code's function, it is important to have base level knowledge 
 Aside from insurance knowledge, we also need base level knowledge of:
 
 - Generalised Linear Models and their function;
-- Bayes Theorem and therefore, Bayesian inference.
+- Bayes Theorem and therefore, Bayesian inference;
+- Markov Chain Monte Carlo.
 
 ### Programming with R
 To develop the code, we need a series of packages. From our library, we need to recall the following packages:
