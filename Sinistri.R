@@ -158,35 +158,35 @@ require(cowplot)
 
 #grafici per visualizzare i dati per i sinistri
 sinistrieta <- ggplot(data=fullDataFrame, aes(x=Eta, y=Sinistri))
-sinistrieta + geom_col()
+sinistrieta + geom_col() + theme_minimal()
 
 sinistrizona <- ggplot(data=fullDataFrame, aes(x=Zona, y=Sinistri))
-sinistrizona + geom_col()
+sinistrizona + geom_col() + theme_minimal()
 
 sinistriclasse <- ggplot(data=fullDataFrame, aes(x=Classe, y=Sinistri))
-sinistriclasse + geom_col()
+sinistriclasse + geom_col() + theme_minimal()
 
 sinistricilindrata <- ggplot(data=fullDataFrame, aes(x=Cilindrata, y=Sinistri))
-sinistricilindrata + geom_col()
+sinistricilindrata + geom_col() + theme_minimal()
 
 sinistrianz <- ggplot(data=fullDataFrame, aes(x=Veicolo, y=Sinistri))
-sinistrianz + geom_col()
+sinistrianz + geom_col() + theme_minimal()
 
 #grafici per visualizzare i dati per i risarcimenti
 claimsceta <- ggplot(data=fullDataFrameCosto, aes(x=Eta, y=Risarcimenti))
-claimsceta + geom_col()
+claimsceta + geom_col() + theme_minimal()
 
 claimszona <- ggplot(data=fullDataFrameCosto, aes(x=Zona, y=Risarcimenti))
-claimszona + geom_col()
+claimszona + geom_col() + theme_minimal()
 
 claimsclasse <- ggplot(data=fullDataFrameCosto, aes(x=Classe, y=Risarcimenti))
-claimsclasse + geom_col()
+claimsclasse + geom_col() + theme_minimal()
 
 claimscilindrata <- ggplot(data=fullDataFrameCosto, aes(x=Cilindrata, y=Risarcimenti))
-claimscilindrata + geom_col()
+claimscilindrata + geom_col() + theme_minimal()
 
 claimsanz <- ggplot(data=fullDataFrameCosto, aes(x=Veicolo, y=Risarcimenti))
-claimsanz + geom_col()
+claimsanz + geom_col() + theme_minimal()
 
 #otteniamo numero di core su cui far girare il programma
 options(mc.cores = parallel::detectCores())
