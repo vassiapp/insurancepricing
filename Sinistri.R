@@ -155,38 +155,40 @@ require(gdata)
 require(dplyr)
 require(parallel)
 require(cowplot)
+library("RColorBrewer")
 
 #grafici per visualizzare i dati per i sinistri
 sinistrieta <- ggplot(data=fullDataFrame, aes(x=Eta, y=Sinistri))
-sinistrieta + geom_col() + theme_minimal()
+sinistrieta + geom_col(fill="#6e0a19") + theme_minimal() + labs(x = "x: Età assicurato", y = "y: Sinistri")
+
 
 sinistrizona <- ggplot(data=fullDataFrame, aes(x=Zona, y=Sinistri))
-sinistrizona + geom_col() + theme_minimal()
+sinistrizona + geom_col(fill="#A81026") + theme_minimal() + labs(x = "x: Zona geografica", y = "y: Sinistri")
 
 sinistriclasse <- ggplot(data=fullDataFrame, aes(x=Classe, y=Sinistri))
-sinistriclasse + geom_col() + theme_minimal()
+sinistriclasse + geom_col(fill="#E01533") + theme_minimal() + labs(x = "x: Classe di merito", y = "y: Sinistri")
 
 sinistricilindrata <- ggplot(data=fullDataFrame, aes(x=Cilindrata, y=Sinistri))
-sinistricilindrata + geom_col() + theme_minimal()
+sinistricilindrata + geom_col(fill="#EE445E") + theme_minimal() + labs(x = "x: Cilindrata", y = "y: Sinistri")
 
 sinistrianz <- ggplot(data=fullDataFrame, aes(x=Veicolo, y=Sinistri))
-sinistrianz + geom_col() + theme_minimal()
+sinistrianz + geom_col(fill="#F58F9E") + theme_minimal() + labs(x = "x: Anzianità veicolo", y = "y: Sinistri")
 
 #grafici per visualizzare i dati per i risarcimenti
-claimsceta <- ggplot(data=fullDataFrameCosto, aes(x=Eta, y=Risarcimenti))
-claimsceta + geom_col() + theme_minimal()
+claimseta <- ggplot(data=fullDataFrameCosto, aes(x=Eta, y=Risarcimenti))
+claimseta + geom_col(fill="#2F6E74") + theme_minimal() + labs(x = "x: Età assicurato", y = "y: Costo per sinistro")
 
 claimszona <- ggplot(data=fullDataFrameCosto, aes(x=Zona, y=Risarcimenti))
-claimszona + geom_col() + theme_minimal()
+claimszona + geom_col(fill="#3c8c93") + theme_minimal() + labs(x = "x: Zona geografica", y = "y: Costo per sinistro")
 
 claimsclasse <- ggplot(data=fullDataFrameCosto, aes(x=Classe, y=Risarcimenti))
-claimsclasse + geom_col() + theme_minimal()
+claimsclasse + geom_col(fill="#47A5AE") + theme_minimal() + labs(x = "x: Classe di merito", y = "y: Costo per sinistro")
 
 claimscilindrata <- ggplot(data=fullDataFrameCosto, aes(x=Cilindrata, y=Risarcimenti))
-claimscilindrata + geom_col() + theme_minimal()
+claimscilindrata + geom_col(fill="#7DC3CA") + theme_minimal() + labs(x = "x: Cilindrata", y = "y: Costo per sinistro")
 
 claimsanz <- ggplot(data=fullDataFrameCosto, aes(x=Veicolo, y=Risarcimenti))
-claimsanz + geom_col() + theme_minimal()
+claimsanz + geom_col(fill="#A8D7DC") + theme_minimal() + labs(x = "x: Anzianità veicolo", y = "y: Costo per sinistro")
 
 #otteniamo numero di core su cui far girare il programma
 options(mc.cores = parallel::detectCores())
