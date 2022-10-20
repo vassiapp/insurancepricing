@@ -66,9 +66,9 @@ for(cardinalPoint in 1:4)
           
           
           #ciclo for per creare un vettore per il dataframe dei sinistri e del costo del risarcimento
-          for(rData in rpoisData)
+          for(poisData in rpoisData)
           {
-            if(rData != 0) #quando il valore simulato della poisson é diverso da zero
+            if(poisData != 0) #quando il valore simulato della poisson é diverso da zero
             {
               # temporaneamente mettiamo dei valori fissi
               nu = 50
@@ -82,7 +82,7 @@ for(cardinalPoint in 1:4)
                 mu=1000
               }
               
-              costi = rgamma(rData, nu, nu/mu)
+              costi = rgamma(poisData, nu, nu/mu)
               
               for(costo in costi)
               {
@@ -91,7 +91,7 @@ for(cardinalPoint in 1:4)
               }
             }
             
-            tempData = c(rData, cardinalPoint, ageSplit, classes, motorStrength, carAge)
+            tempData = c(poisData, cardinalPoint, ageSplit, classes, motorStrength, carAge)
             fullDataVector = append(fullDataVector, tempData)
           }
           
@@ -198,7 +198,24 @@ fit.sinistri <- brm(Sinistri ~ Eta + Zona + Classe + Cilindrata + Veicolo, data 
 summary(fit.sinistri) #vedo i risultati
 plot(fit.sinistri, ask=FALSE)
 
+#proviamo con la binomiale negativa
+fit.sinistri2 <- brm(Sinistri ~ Eta + Zona + Classe + Cilindrata + Veicolo, data = fullDataFrame, family = ("negbinomial"), cores = getOption("mc.cores", 1))
+summary(fit.sinistri2) #vedo i risultati
+plot(fit.sinistri2, ask=FALSE)
+
+#calcolo WAIC per verificare la bontá del modello
+brms::WAIC(fit.sinistri, fit.sinistri2)
+
 #fitting del modello per la gamma
 fit.costo <- brm(Risarcimenti ~ Eta + Zona + Classe + Cilindrata + Veicolo, data = fullDataFrameCosto, family = ("gamma"), cores = getOption("mc.cores", 1))
 summary (fit.costo)
 plot(fit.costo, ask=FALSE)
+
+fit.costo2 <- brm(Risarcimenti ~ Eta + Zona + Classe + Cilindrata + Veicolo, data = fullDataFrameCosto, family = ("lognormal"), cores = getOption("mc.cores", 1))
+summary (fit.costo2)
+plot(fit.costo2, ask=FALSE)
+
+#calcolo WAIC per verificare bontá del modello
+brms::WAIC(fit.costo, fit.costo2)
+
+
