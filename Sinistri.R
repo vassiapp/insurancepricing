@@ -198,6 +198,14 @@ fit.sinistri <- brm(Sinistri ~ Eta + Zona + Classe + Cilindrata + Veicolo, data 
 summary(fit.sinistri) #vedo i risultati
 plot(fit.sinistri, ask=FALSE)
 
+#vediamo solo con variabili significative
+sinistri.eta <- brm(Sinistri ~ Eta, family="poisson", data = fullDataFrame, cores = getOption("mc.cores", 1))
+sinistri.classe <- brm(Sinistri ~ Classe, family="poisson", data = fullDataFrame, cores = getOption("mc.cores", 1))
+summary(sinistri.eta)
+summary(sinistri.classe)
+plot(sinistri.eta, ask=FALSE)
+plot(sinistri.classe, ask=FALSE)
+
 #proviamo con la binomiale negativa
 fit.sinistri2 <- brm(Sinistri ~ Eta + Zona + Classe + Cilindrata + Veicolo, data = fullDataFrame, family = ("negbinomial"), cores = getOption("mc.cores", 1))
 summary(fit.sinistri2) #vedo i risultati
@@ -214,6 +222,14 @@ plot(fit.costo, ask=FALSE)
 fit.costo2 <- brm(Risarcimenti ~ Eta + Zona + Classe + Cilindrata + Veicolo, data = fullDataFrameCosto, family = ("lognormal"), cores = getOption("mc.cores", 1))
 summary (fit.costo2)
 plot(fit.costo2, ask=FALSE)
+
+#vediamo solo con variabili significative
+claims.cilindrata <- brm(Risarcimenti ~ Cilindrata, family="gamma", data = fullDataFrameCosto, cores = getOption("mc.cores", 1))
+claims.anzianita <- brm(Risarcimenti ~ Veicolo, family="gamma", data = fullDataFrameCosto, cores = getOption("mc.cores", 1))
+summary(claims.cilindrata)
+summary(claims.anzianita)
+plot(claims.cilindrata, ask=FALSE)
+plot(claims.anzianita, ask=FALSE)
 
 #calcolo WAIC per verificare bontá del modello
 brms::WAIC(fit.costo, fit.costo2)
